@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="js.js" defer></script>
+    <title>Mario Game</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.game-board {
+    width: 100%;
+    height: 500px;
+    border-bottom: 15px solid #716969;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.fundo {
+    width: 100%;
+    height: 500px;
+    
+}
+
+.pipe {
+    position: absolute; /* position absolute serve para quando formos trabalhar com diversas imagens independentes*/
+    bottom: 0;
+    width: 80px;
+    animation: pipe-animation 1s infinite linear;
+
+}
+
+.mario {
+
+    width: 150px;
+    position: absolute;
+    bottom: 0;
+   
+}
+
+.jump {
+    animation: jump-mario 500ms ease-out;
+}
+
+@keyframes jump-mario {
+
+    0% {
+        bottom: 0;
+
+    }
+
+    40% {
+        bottom: 188px;
+    }
+
+    50% {
+        bottom: 188px;
+
+    }
+
+    60% {
+        bottom: 188px;
+    }
+
+    100% {
+        bottom: 0;
+    }
+
+}
+
+@keyframes pipe-animation {
+    from {
+        right: -80px;
+    }
+    to {
+        right: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    
+    <div class="game-board">
+
+        <img src="imagens/pipe.png" alt="" class="pipe">
+        <img src="imagens/marioskateee.png" alt="" class="mario">
+        <img src="imagens/83a372dd-dfea-41d0-ac2c-9b358418334b.jpg" alt="" class="fundo">
+    </div>
+
+        <script>
+            const mario = document.querySelector('.mario');
+const pipe = document.querySelector('.pipe');
+
+
+const jump = () => {
+    mario.classList.add('jump');
+    setTimeout(() => {
+
+    mario.classList.remove('jump');
+
+    } 
+        
+        ,500);
+}
+
+const loop  = setInterval(() => {
+    console.log('loop')
+
+    const pipePosition = pipe.offsetLeft;
+    const marioPosition = window.getComputedStyle(mario).bottom.replace('px','');
+
+
+    if (pipePosition <= 120 && pipePosition >0 && marioPosition < 80) {
+
+        pipe.style.animation = 'none';
+        pipe.style.left = `${pipePosition}px`;
+
+        mario.style.animation = 'none';
+        mario.style.bottom = `${marioPosition}px`;
+
+        mario.src = 'imagens/game-over.png';
+        mario.style.width = '75px'
+        mario.style.marginLeft = '50px'
+
+        clearInterval(loop)
+    }
+
+}, 10);
+
+document.addEventListener('keydown', jump);
+</script>
+</body>
+</html>
